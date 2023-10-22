@@ -1,0 +1,22 @@
+{
+    "ClassName": "Frame",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "LayoutOrder": 20,
+        "Size": {"UDim2": [[1,0], [0,60]]}
+    },
+    "Children": [
+        {
+            "Name": "ImageLabel",
+            "ClassName": "ImageLabel",
+            "Properties": {
+                "BackgroundTransparency": 1,
+                "BackgroundColor3": {
+                    "Color3uint8": [255,255,255]
+                },
+                "Image": "rbxassetid://924320031",
+                "Size": {"UDim2": [[1,0], [1,0]]}
+            }
+        }
+    ]
+}

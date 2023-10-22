@@ -1,0 +1,23 @@
+{
+    "name": "Markdown Test",
+    "tree": {
+        "$className": "DataModel",
+        "ReplicatedStorage": {
+            "$className": "ReplicatedStorage",
+            "$path": "src/shared",
+
+            "Packages": {
+                "$className": "Folder",
+                "$path": "Packages"
+            }
+        },
+        "StarterPlayer": {
+            "$className": "StarterPlayer",
+
+            "StarterPlayerScripts": {
+                "$className": "StarterPlayerScripts",
+                "$path": "src/client"
+            }
+        }
+    }
+}

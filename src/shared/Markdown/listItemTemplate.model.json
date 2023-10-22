@@ -1,0 +1,52 @@
+{
+    "ClassName": "Frame",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "Size": {"UDim2": [[1,0], [1,0]]}
+    },
+    "Children": [
+        {
+            "Name": "Content",
+            "ClassName": "Frame",
+            "Properties": {
+                "AnchorPoint": [1,0],
+                "BackgroundTransparency": 1,
+                "Position": {"UDim2": [[1,0], [0,0]]},
+                "Size": {"UDim2": [[1,-10], [1,0]]}
+            },
+            "Children": [
+                {
+                    "Name": "UIListLayout",
+                    "ClassName": "UIListLayout",
+                    "Properties": {
+                        "SortOrder": "LayoutOrder"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "ImageLabel",
+            "ClassName": "ImageLabel",
+            "Properties": {
+                "BackgroundTransparency": 1,
+                "Image": "rbxassetid://2650968351",
+                "Size": {"UDim2": [[0,16], [0,16]]}
+            }
+        },
+        {
+            "Name": "TextLabel",
+            "ClassName": "TextLabel",
+            "Properties": {
+                "BackgroundTransparency": 1,
+                "Font": "SourceSans",
+                "Size": {"UDim2": [[1,0], [0,14]]},
+                "TextColor3": {
+                    "Color3uint8": [255,255,255]
+                },
+                "TextSize": 16,
+                "TextWrapped": false,
+                "TextXAlignment": "Left"
+            }
+        }
+    ]
+}

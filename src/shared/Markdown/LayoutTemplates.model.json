@@ -1,0 +1,23 @@
+{
+    "ClassName": "Folder",
+    "Children": [
+        {
+            "Name": "UIListLayout",
+            "ClassName": "UIListLayout",
+            "Properties": {
+                "Padding": {"UDim": [0, 10]},
+                "SortOrder": "LayoutOrder"
+            }
+        },
+        {
+            "Name": "UIPadding",
+            "ClassName": "UIPadding",
+            "Properties": {
+                "PaddingBottom": {"UDim": [0, 5]},
+                "PaddingLeft": {"UDim": [0, 5]},
+                "PaddingRight": {"UDim": [0, 5]},
+                "PaddingTop": {"UDim": [0, 5]}
+            }
+        }
+    ]
+}

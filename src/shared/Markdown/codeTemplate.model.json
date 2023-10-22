@@ -1,0 +1,34 @@
+{
+    "ClassName": "Frame",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "LayoutOrder": -10,
+        "Size": {"UDim2": [[1,0], [0,60]]}
+    },
+    "Children": [
+        {
+            "Name": "Background",
+            "ClassName": "Frame",
+            "Properties": {
+                "AnchorPoint": [0.5,0.5],
+                "BackgroundTransparency": 0,
+                "BackgroundColor3": {
+                    "Color3uint8": [45,45,45]
+                },
+                "Position": {"UDim2": [[0.5,0], [0.5,0]]},
+                "Size": {"UDim2": [[1,0], [1,0]]},
+                "BorderSizePixel": 0
+            }
+        },
+        {
+            "Name": "Content",
+            "ClassName": "Frame",
+            "Properties": {
+                "AnchorPoint": [0.5,0.5],
+                "BackgroundTransparency": 1,
+                "Position": {"UDim2": [[0.5,0], [0.5,0]]},
+                "Size": {"UDim2": [[1,-10], [1,-10]]}
+            }
+        }
+    ]
+}

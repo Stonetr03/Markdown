@@ -1,0 +1,23 @@
+{
+    "ClassName": "Frame",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "LayoutOrder": -10,
+        "Size": {"UDim2": [[1,0], [0,30]]}
+    },
+    "Children": [
+        {
+            "Name": "Divider",
+            "ClassName": "Frame",
+            "Properties": {
+                "AnchorPoint": [0.5,0.5],
+                "BackgroundColor3": {
+                    "Color3uint8": [50,50,50]
+                },
+                "BorderSizePixel": 0,
+                "Position": {"UDim2": [[0.5,0], [0.5,0]]},
+                "Size": {"UDim2": [[1,0], [0,2]]}
+            }
+        }
+    ]
+}

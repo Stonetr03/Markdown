@@ -1,0 +1,8 @@
+[package]
+name = "stonetr03/markdown"
+version = "0.0.1-pre"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+Fusion = "elttob/fusion@0.2.0"

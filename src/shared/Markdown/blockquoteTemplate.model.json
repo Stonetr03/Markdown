@@ -1,0 +1,41 @@
+{
+    "ClassName": "Frame",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "LayoutOrder": -10,
+        "Size": {"UDim2": [[1,0], [0,60]]}
+    },
+    "Children": [
+        {
+            "Name": "Quote",
+            "ClassName": "Frame",
+            "Properties": {
+                "BackgroundTransparency": 0,
+                "BackgroundColor3": {
+                    "Color3uint8": [50,50,50]
+                },
+                "Size": {"UDim2": [[0,4], [1,0]]}
+            }
+        },
+        {
+            "Name": "Content",
+            "ClassName": "Frame",
+            "Properties": {
+                "AnchorPoint": [1,0],
+                "BackgroundTransparency": 1,
+                "Position": {"UDim2": [[1,0], [0,0]]},
+                "Size": {"UDim2": [[1,-10], [1,0]]}
+            },
+            "Children": [
+                {
+                    "Name": "UIListLayout",
+                    "ClassName": "UIListLayout",
+                    "Properties": {
+                        "HorizontalAlignment": "Right",
+                        "SortOrder": "LayoutOrder"
+                    }
+                }
+            ]
+        }
+    ]
+}

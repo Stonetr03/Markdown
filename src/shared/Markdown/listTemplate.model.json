@@ -1,0 +1,17 @@
+{
+    "ClassName": "Frame",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "LayoutOrder": 10,
+        "Size": {"UDim2": [[1,0], [0,60]]}
+    },
+    "Children": [
+        {
+            "Name": "UIListLayout",
+            "ClassName": "UIListLayout",
+            "Properties": {
+                "SortOrder": "LayoutOrder"
+            }
+        }
+    ]
+}
