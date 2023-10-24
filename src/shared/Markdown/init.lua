@@ -13,28 +13,30 @@
     * Blockquotes
     * Images
     * Preserving original links while showing Roblox asset images *only* when viewed in Roblox i.e. markdown with images that can be viewed both in- and out-of Roblox
-    
+
     Markdowner uses the following open-source modules:
     * [markdown.lua](https://github.com/mpeterv/markdown)
     * [xmlSimple](https://github.com/Cluain/Lua-Simple-XML-Parser)
     * [Lexer](https://devforum.roblox.com/t/lexer-for-rbx-lua/183115)
-    
+
     Markdown is turned into html which is then turned into Roblox gui.
-        
+
     Markdowner Documentation
-    
+
     Markdowner returns a function, `getMarkdownGui`:
         Instance baseGui,  MarkdownContainer container = getMarkdownGui({
             String text,
             Instance gui (optional),
             Bool relayoutOnResize (optional),
             Bool dontCreateLayouts (optional),
+            Table links (optional),
         })
         A gui for the given markdown text will be generated and placed inside `gui`.
         If `gui` is missing then a new Frame with `BackgroundTransparency = 1` will be created.
         If `relayoutOnResize` is true, the markdown will be updated any time `gui`'s AbsoluteSize changes. The connection for this is *not* exposed.
         By default, getMarkdownGui will clone a default UIListLayout and a default UIPadding into your gui if your gui is missing children with those names. At least a UIListLayout is required for Markdowner to display markdown. If you don't want Markdowner to place this in your gui, set `dontCreateLayouts` to true.
-    
+        if there are links, when clicked `links[url]()` will be called, if links[url] exists.
+
     class MarkdownContainer:
         Vector2 :GetSize()
             Returns the absolute size of the generated markdown
@@ -44,7 +46,7 @@
         void :Relayout()
             Updates all the contained markdown elements' positions.
             If there is no gui connected to this container, nothing is updated. Relayout requirs an AbsoluteSize to update  element positions.
-    
+
     Replacing non-roblox images with Roblox images:
         You have two choices:
         1. Replace the actual link with a Roblox content id (e.g. `rbxassetid://12345678`)
@@ -140,7 +142,7 @@ local MarkdownElement = setmetatable({}, {
             self.childrenDict = {}
             return self
         end,
-        
+
         Add = function(self, element)
             if self.childrenDict[element] then
                 return
@@ -167,7 +169,7 @@ local MarkdownElement = setmetatable({}, {
                 element.parent = nil
             end
         end,
-        
+
         GetSize = function(self)
             return self.size or Vector2.new(0, 0)
         end,
@@ -261,6 +263,10 @@ MarkdownText = MarkdownElement:Extend({
         templateName = 'textTemplate',
         Construct = function(self, args)
             MarkdownText.super.Construct(self, args)
+            if typeof(args.href) == "function" then
+                self.gui = script.buttonTemplate
+                self.href = args.href
+            end
             self.text = args.text
             if args.font then
                 self.gui.FontFace = args.font
@@ -276,8 +282,16 @@ MarkdownText = MarkdownElement:Extend({
             self.color = self.gui.TextColor3
             return self
         end,
-        MakeGui = function(self)
-            return self.gui:Clone()
+        MakeGui = function(self,args)
+            local gui = self.gui:Clone()
+            if gui.ClassName == "TextButton" then
+                gui.MouseButton1Up:Connect(function()
+                    if args.href then
+                        args.href()
+                    end
+                end)
+            end
+            return gui
         end,
     }
 })
@@ -365,7 +379,7 @@ MarkdownParagraph = MarkdownElement:Extend({
                     maxLineFontSize = math.max(maxLineFontSize, math.floor(fontSize*1.2))
                     local fullSize = TextService:GetTextBoundsAsync(Create("GetTextBoundsParams",nil,{Text = childText,Font = font, Size = fontSize, Width = bigVector2}))
                     if width + fullSize.x <= maxSize.x then
-                        local gui = child:MakeGui()
+                        local gui = child:MakeGui(child)
                         gui.Text = childText
                         gui.Size = UDim2.new(0, fullSize.x, 0, fullSize.y)
                         gui.Position = UDim2.new(0, width, 0, height)
@@ -376,7 +390,7 @@ MarkdownParagraph = MarkdownElement:Extend({
                         for space, word in childText:gmatch('(%s*)(%S*)') do
                             local addWordSize = TextService:GetTextBoundsAsync(Create("GetTextBoundsParams",nil,{Text = space..word,Font = font, Size = fontSize, Width = bigVector2}))
                             if width + addWordSize.x <= maxSize.x then
-                                local gui = child:MakeGui()
+                                local gui = child:MakeGui(child)
                                 gui.Text = space..word
                                 gui.Size = UDim2.new(0, addWordSize.x, 0, addWordSize.y)
                                 gui.Position = UDim2.new(0, width, 0, height)
@@ -388,7 +402,7 @@ MarkdownParagraph = MarkdownElement:Extend({
                                 if wordSize.x <= maxSize.x then
                                     height = height + maxLineFontSize
                                     maxLineFontSize = math.floor(fontSize*1.2)
-                                    local gui = child:MakeGui()
+                                    local gui = child:MakeGui(child)
                                     gui.Text = word
                                     gui.Size = UDim2.new(0, wordSize.x, 0, wordSize.y)
                                     gui.Position = UDim2.new(0, 0, 0, height)
@@ -409,7 +423,7 @@ MarkdownParagraph = MarkdownElement:Extend({
                                     for char in text:gmatch('.') do
                                         local nextSize = TextService:GetTextBoundsAsync(Create("GetTextBoundsParams",nil,{Text = built..char,Font = font, Size = fontSize, Width = bigVector2}))
                                         if width + nextSize.x > maxSize.x then
-                                            local gui = child:MakeGui()
+                                            local gui = child:MakeGui(child)
                                             gui.Text = built
                                             gui.Size = UDim2.new(0, maxSize.x - width, 0, fontSize)
                                             gui.Position = UDim2.new(0, width, 0, height)
@@ -423,7 +437,7 @@ MarkdownParagraph = MarkdownElement:Extend({
                                     end
                                     if built ~= '' then
                                         local textSize = TextService:GetTextBoundsAsync(Create("GetTextBoundsParams",nil,{Text = built,Font = font, Size = fontSize, Width = bigVector2}))
-                                        local gui = child:MakeGui()
+                                        local gui = child:MakeGui(child)
                                         gui.Text = built
                                         gui.Size = UDim2.new(0, textSize.x, 0, fontSize)
                                         gui.Position = UDim2.new(0, width, 0, height)
@@ -482,6 +496,7 @@ MarkdownCode = MarkdownParagraph:Extend({
                     local colorName = token
                     if self.operators[token] then
                         colorName = 'operator'
+---@diagnostic disable-next-line: undefined-global
                     elseif token == 'iden' and self.customBuiltins and self.customBuiltins[txt] then
                         colorName = 'builtin'
                     end 
@@ -621,7 +636,7 @@ MarkdownList = MarkdownElement:Extend({
 local function getMarkdownGui(args)
     local html, linkDb = markdownToHtml(args.text)
     local xml = readXml(html)
-    
+
     local baseGui
     if args.gui then
         baseGui = args.gui
@@ -636,10 +651,10 @@ local function getMarkdownGui(args)
             end
         end
     end
-    
+
     local lang
     local href
-    
+
     local tags = {}
     local function addTag(tag)
         tags[tag] = (tags[tag] or 0) + 1
@@ -650,7 +665,7 @@ local function getMarkdownGui(args)
             tags[tag] = nil
         end
     end
-    
+
     local container = MarkdownContainer:New({gui = baseGui})
     local currentItem = container
     local function add(obj)
@@ -667,7 +682,7 @@ local function getMarkdownGui(args)
         end
         currentItem = currentItem.parent
     end
-    
+
     local function resolveUrl(url, title)
         local size
         local found = linkDb['roblox '..url]
@@ -690,7 +705,7 @@ local function getMarkdownGui(args)
         end
         return url, title, size
     end
-    
+
     local function make(parent)
         for _, node in next, parent:children() do
             local nodeType = node:name()
@@ -725,11 +740,16 @@ local function getMarkdownGui(args)
                             break
                         end
                     end
+                    local hrefCallback
                     if tags.a then
                         color = Color3.fromRGB(80, 217, 255)
                         if href then
                             local url, title, size = unpack(href)
-                            -- TODO: make and listen to button
+                            hrefCallback = function()
+                                if args.links and args.links[url] then
+                                    args.links[url]()
+                                end
+                            end
                         end
                     end
                     currentItem:Add(
@@ -738,6 +758,7 @@ local function getMarkdownGui(args)
                             font = font,
                             fontSize = fontSize,
                             color = color,
+                            href = hrefCallback;
                         })
                     )
                 end
@@ -797,19 +818,19 @@ local function getMarkdownGui(args)
         end
     end
     make(xml)
-    
+
     container:Relayout()
     if args.relayoutOnResize then
         local lastAbsoluteSize = baseGui.AbsoluteSize
         baseGui:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
-            if baseGui.AbsoluteSize == lastAbsoluteSize then
+            if (lastAbsoluteSize.X == math.round(baseGui.AbsoluteSize.X) and lastAbsoluteSize.Y == math.round(baseGui.AbsoluteSize.Y)) then
                 return
             end
-            lastAbsoluteSize = baseGui.AbsoluteSize
+            lastAbsoluteSize = Vector2.new(math.round(baseGui.AbsoluteSize.X),math.round(baseGui.AbsoluteSize.Y))
             container:Relayout()
         end)
     end
-    
+
     return baseGui, container
 end
 

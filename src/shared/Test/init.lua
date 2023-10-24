@@ -43,6 +43,12 @@ Line Break
 
 ---
 
-[a link]()
+[a link](a)
+
+[b link](b)
+
+[c link](c)
+
+[d link](d)
 
 ]==]

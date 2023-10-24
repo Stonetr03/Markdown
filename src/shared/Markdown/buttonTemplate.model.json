@@ -1,0 +1,17 @@
+{
+    "ClassName": "TextButton",
+    "Properties": {
+        "BackgroundTransparency": 1,
+        "Font": "SourceSans",
+        "Selectable": true,
+        "Size": {"UDim2": [[1,0], [1,0]]},
+        "Text": "Header",
+        "TextColor3": {
+            "Color3uint8": [255,255,255]
+        },
+        "TextSize": 16,
+        "TextWrapped": false,
+        "TextXAlignment": "Left",
+        "TextYAlignment": "Top"
+    }
+}

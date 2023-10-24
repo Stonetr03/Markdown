@@ -11,13 +11,15 @@ local Children = Fusion.Children
 local CanvasSize = Value(UDim2.new(0,0,0,15))
 local resize
 
+local LastSize = Vector2.new(0,0)
 local Doc = New "Frame" {
     BackgroundTransparency = 1;
     Size = UDim2.new(1,0,1,-2);
 
-    [Fusion.OnChange "AbsoluteSize"] = function()
-        if typeof(resize) == "function" then
+    [Fusion.OnChange "AbsoluteSize"] = function(NewSize)
+        if typeof(resize) == "function" and (LastSize.X ~= math.round(NewSize.X) or LastSize.Y ~= math.round(NewSize.Y)) then
             resize()
+            LastSize = Vector2.new(math.round(NewSize.X),math.round(NewSize.Y))
         end
     end
 }
@@ -41,7 +43,21 @@ New "ScreenGui" {
 local gui, element = markdowner({
     text = Text,
     gui = Doc,
-    relayoutOnResize = true
+    relayoutOnResize = true,
+    links = {
+        a = function()
+            print("a")
+        end,
+        b = function()
+            print("b")
+        end,
+        c = function()
+            print("c")
+        end,
+        d = function()
+            print("d")
+        end
+    }
 })
 
 resize = function()
